@@ -1,0 +1,155 @@
+#include <iostream>
+using namespace std;
+class node {
+public:
+	
+	int data;
+	node* next;
+
+	node(int value)
+	{ // A constructor is called here
+		
+					 // pointed to NULL
+		data = value; // value is assigned to the data
+		next = NULL; // By default next pointer is pointed
+					 // to NULL
+	}
+};
+void insertathead(node*& head) {
+	for (int val = 0;val <= 5;val++) {
+		node* n1 = new node(val);
+		node* temp = head;
+
+		while (temp->next!= NULL) {
+			temp = temp->next;
+		}
+		n1->next = head;
+		head = n1;
+	}
+}
+
+////inserting linked list 
+	void insertattail(node*&head) {
+		node* n;
+		node* temp = head;
+		if (head == NULL) {
+			node* temp = head;
+		}
+		for (int i=0;i<=8;i++) {
+			n = new node(i);
+			
+			while (temp->next != NULL) {
+				temp = temp->next;
+			}
+			temp->next = n;
+			temp = n;
+		}
+	}
+
+
+/////reversing the singly linked list
+	node* reverse(node* &head) {
+		node* prev = NULL;
+		node* crnt = head;
+		node* nextptr;
+		while (crnt != NULL) {
+			nextptr = crnt->next;
+			crnt->next = prev;
+			prev = crnt;
+			crnt = nextptr;
+		}
+		return prev;
+	}
+  
+  /////display linked list
+	void display(node*&head) {
+		node* temp = head;
+		while (temp != NULL) {
+			cout << temp->data<<"->";
+			temp = temp->next;
+		}
+	}
+/////Find middle of the linked list singly
+	node* findmid(node* head) {
+		node* slow = head;
+		node* fast = head->next;
+
+		while (fast != NULL && fast->next != NULL) {
+			slow = slow->next;
+			fast = fast->next->next;
+		}
+		return slow;
+}
+	node* merge(node* &left, node* &right) {
+		if (left == NULL) {
+			return right;
+		}
+		if (right == NULL) {
+			return left;
+		}
+		node* dummy = new node(-1);
+		node* temp = dummy;
+		while (left != NULL && right != NULL) {
+			if (left->data < right->data) {
+				temp->next = left;
+				temp = left;
+				left = left->next;
+			}
+			else {
+				temp->next = right;
+				temp = right;
+				right = right->next;
+			}
+		}
+		while (left != NULL) {
+			temp->next = left;
+			temp = left;
+			left = left->next;
+		}
+		while (right != NULL) {
+			temp->next = right;
+			temp = right;
+			right = right->next;
+		}
+		dummy = dummy->next;
+		return dummy;
+	}
+  
+  ////implementing merge sort using linked list
+	node* mergesort(node* &head) {
+		if (head == NULL || head->next == NULL) {
+			return head;
+		}
+		node* mid = findmid(head);
+		node* left = head;
+		node* right = mid->next;
+		mid->next = NULL;
+
+	     left = mergesort(left);
+		 right = mergesort(right);
+
+		node* result = merge(left, right);
+
+		return result;
+
+	}
+
+int main() {
+	node* head = new node(1);
+	//node* head = NULL;
+
+	//insertattail(head);
+	//display(head);
+	cout << endl;
+	cout << "LINK LIST AFTER REVERSE:";
+	//node* newhead = reverse(head);
+	// display(newhead);
+	 cout << endl;
+	 cout << "LINK LIST INSERT AT HEAD :";
+	 insertathead(head);
+	 display(head);
+	 cout << endl;
+	 cout<<" SORTED LINKED LIST: "<<mergesort(head);
+
+	
+}
